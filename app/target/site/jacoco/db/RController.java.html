@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">db</a> &gt; <span class="el_source">RController.java</span></div><h1>RController.java</h1><pre class="source lang-java linenums">package db;
+
+import db.ErrorHandlers.EmployeeNotFoundException;
+//import service.DatabaseService;
+//import emp.Emp;
+import db.Emp;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+
+import org.springframework.web.bind.annotation.*;
+import db.service.DatabaseService;
+
+import java.util.List;
+
+@Api(value = &quot;Endpoints for Employee's Details &quot;,description =&quot;Endpoints for Employee's Details &quot;)
+@RestController
+
+<span class="nc" id="L22">public class RController {</span>
+
+    @Autowired
+
+    DatabaseService db;
+
+    @GetMapping (&quot;/home&quot;)
+<span class="nc" id="L29">    public String home() { return &quot;hello from the server&quot;;}</span>
+
+        @ResponseStatus(HttpStatus.OK)
+        @GetMapping(&quot;/findAll&quot;)
+<span class="nc" id="L33">        @ResponseBody Iterable&lt;Emp&gt; findall() {return db.FindAll();}</span>
+
+
+    @ApiOperation(value = &quot;Gives details of all Employees by their names&quot;,
+    notes = &quot;List of Employee with that  name&quot;, response = Emp.class,responseContainer =&quot;List&quot;)
+
+    @ApiResponses(value = {
+            @ApiResponse(code =500, message =&quot;Server error&quot;),
+            @ApiResponse (code =200, message= &quot;Successful retrieval&quot;)})
+        @GetMapping(&quot;/findByName/{name}&quot;)
+<span class="nc" id="L43">        List&lt;Emp&gt; findbyname (@PathVariable String name) { return db.findByName(name);}</span>
+
+
+    @ApiOperation(value = &quot;Gives details of all Employees by their Unique Id&quot;,
+            notes = &quot; Employee with that Unique Id&quot;, response = Emp.class)
+
+    @ApiResponses (value = {
+            @ApiResponse (code =500, message =&quot;Server error&quot;),
+            @ApiResponse (code =200, message= &quot;Successful retrieval&quot;)})
+    @GetMapping(&quot;/findById/{id}&quot;)
+<span class="nc" id="L53">    Emp findbyid(@PathVariable Integer id) { return db.findById(id); }</span>
+
+    @PostMapping(&quot;/insert&quot;)
+    String insert(@RequestBody Emp emp) {
+<span class="nc" id="L57">        db.insert(emp);</span>
+<span class="nc" id="L58">        return &quot;Inserted&quot;;</span>
+    }
+
+    @PutMapping(&quot;/update/{id}&quot;)
+    String update(@PathVariable Integer id,@RequestBody Emp emp) throws EmployeeNotFoundException{
+       // Boolean stat=db.update(id ,emp);
+         //       if (stat)
+           //         return &quot;Record updated&quot;;
+             //   else
+               //     throw new EmployeeNotFoundException(&quot;Could not find employee{id:&quot;+id+&quot;}so record could not be updated&quot;);
+<span class="nc" id="L68">              return db.update(id,emp);</span>
+
+    }
+    @DeleteMapping(&quot;/delete/{id}&quot;)
+    String delete(@PathVariable Integer id) throws EmployeeNotFoundException{
+       // Boolean stat=db.delete(id);
+        //if(stat)
+          //  return &quot;Record Deleted&quot;;
+       // else
+         //   throw new EmployeeNotFoundException(&quot;Could not find employee {id:&quot;+id+&quot;}so record could not be deleted &quot;);
+<span class="nc" id="L78">     return db.delete(id);</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
