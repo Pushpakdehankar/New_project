@@ -22,15 +22,19 @@ import java.util.List;
 <span class="nc" id="L22">public class RController {</span>
 
     @Autowired
-
     DatabaseService db;
 
+    @GetMapping(&quot;/Circuittester&quot;)
+    public ResponseEntity&lt;String&gt; circuitTest() {
+<span class="nc" id="L29">        return db.circuitTest();</span>
+    }
+
     @GetMapping (&quot;/home&quot;)
-<span class="nc" id="L29">    public String home() { return &quot;hello from the server&quot;;}</span>
+<span class="nc" id="L33">    public String home() { return &quot;hello from the server&quot;;}</span>
 
         @ResponseStatus(HttpStatus.OK)
         @GetMapping(&quot;/findAll&quot;)
-<span class="nc" id="L33">        @ResponseBody Iterable&lt;Emp&gt; findall() {return db.FindAll();}</span>
+<span class="nc" id="L37">        @ResponseBody Iterable&lt;Emp&gt; findall() {return db.FindAll();}</span>
 
 
     @ApiOperation(value = &quot;Gives details of all Employees by their names&quot;,
@@ -40,7 +44,7 @@ import java.util.List;
             @ApiResponse(code =500, message =&quot;Server error&quot;),
             @ApiResponse (code =200, message= &quot;Successful retrieval&quot;)})
         @GetMapping(&quot;/findByName/{name}&quot;)
-<span class="nc" id="L43">        List&lt;Emp&gt; findbyname (@PathVariable String name) { return db.findByName(name);}</span>
+<span class="nc" id="L47">        List&lt;Emp&gt; findbyname (@PathVariable String name) { return db.findByName(name);}</span>
 
 
     @ApiOperation(value = &quot;Gives details of all Employees by their Unique Id&quot;,
@@ -50,12 +54,12 @@ import java.util.List;
             @ApiResponse (code =500, message =&quot;Server error&quot;),
             @ApiResponse (code =200, message= &quot;Successful retrieval&quot;)})
     @GetMapping(&quot;/findById/{id}&quot;)
-<span class="nc" id="L53">    Emp findbyid(@PathVariable Integer id) { return db.findById(id); }</span>
+<span class="nc" id="L57">    Emp findbyid(@PathVariable Integer id) { return db.findById(id); }</span>
 
     @PostMapping(&quot;/insert&quot;)
     String insert(@RequestBody Emp emp) {
-<span class="nc" id="L57">        db.insert(emp);</span>
-<span class="nc" id="L58">        return &quot;Inserted&quot;;</span>
+<span class="nc" id="L61">        db.insert(emp);</span>
+<span class="nc" id="L62">        return &quot;Inserted&quot;;</span>
     }
 
     @PutMapping(&quot;/update/{id}&quot;)
@@ -65,7 +69,7 @@ import java.util.List;
            //         return &quot;Record updated&quot;;
              //   else
                //     throw new EmployeeNotFoundException(&quot;Could not find employee{id:&quot;+id+&quot;}so record could not be updated&quot;);
-<span class="nc" id="L68">              return db.update(id,emp);</span>
+<span class="nc" id="L72">              return db.update(id,emp);</span>
 
     }
     @DeleteMapping(&quot;/delete/{id}&quot;)
@@ -75,7 +79,7 @@ import java.util.List;
           //  return &quot;Record Deleted&quot;;
        // else
          //   throw new EmployeeNotFoundException(&quot;Could not find employee {id:&quot;+id+&quot;}so record could not be deleted &quot;);
-<span class="nc" id="L78">     return db.delete(id);</span>
+<span class="nc" id="L82">     return db.delete(id);</span>
     }
 
 

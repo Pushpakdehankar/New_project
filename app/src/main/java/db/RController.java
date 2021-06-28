@@ -22,8 +22,12 @@ import java.util.List;
 public class RController {
 
     @Autowired
-
     DatabaseService db;
+
+    @GetMapping("/Circuittester")
+    public ResponseEntity<String> circuitTest() {
+        return db.circuitTest();
+    }
 
     @GetMapping ("/home")
     public String home() { return "hello from the server";}
